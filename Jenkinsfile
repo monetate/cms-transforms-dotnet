@@ -8,7 +8,7 @@ VENV = 'virtualenv'
 
 //slack.success(this, ':pipeline: Pipeline started')
 
-node {
+node('node-v8') {
     withDotNet {
         stages {
             stage('Checkout Source') {
