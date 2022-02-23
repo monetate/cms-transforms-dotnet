@@ -1,5 +1,11 @@
 # cms-transforms-dotnet
 
 test-c-sharp:
-#	brew install mono-libgdiplus && brew install dotnet
-	cd cms-transforms-c-sharp/CmsTransformTests && dotnet test && cd ../..
+If required, install relevant packages
+```
+brew install mono-libgdiplus && brew install dotnet
+```
+then test using
+```
+cd cms-transforms-c-sharp/CmsTransformTests && dotnet test && cd ../..
+```
