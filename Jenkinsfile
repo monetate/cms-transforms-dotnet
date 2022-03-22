@@ -72,7 +72,6 @@ node('node-v8') {
 	    }
 	} catch (err) {
 		echo "Error starting jenkinsfile: ${err}"
-	}
     } finally {
         if (currentBuild.result == null) {
         currentBuild.result = result.FAILURE
