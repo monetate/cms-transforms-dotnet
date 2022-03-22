@@ -12,7 +12,7 @@ slack.success(this, ':pipeline: Pipeline started')
 
 node('node-v8') {
     try {
-    	withDotNet {
+    	withDotNet('net5.0') {
 			def venvDir = "${TEMPDIR}/${env.BUILD_TAG}"
 
 			stage('Checkout source') {
