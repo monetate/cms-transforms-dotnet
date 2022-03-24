@@ -11,7 +11,9 @@ def slack = new Slack(steps, REPO_NAME)
 slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
-    agent { docker "6.0.201-alpine3.15-amd64" }
+    agent {
+    	docker { image '6.0.201-alpine3.15-amd64' }
+    }
     stages {
         stage('Checkout source') {
             steps {
