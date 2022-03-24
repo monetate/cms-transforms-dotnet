@@ -21,6 +21,7 @@ node('node-v8') {
 		withEnv(["PATH=${venvDir}/bin:${PATH}"]) {
 			stage('Install requirements') {
 				sh 'sh build.sh'
+				sh 'sh dotnet-install.sh'
 			}
 			stage('Run tests') {
 				sh 'make test-dotnet'
