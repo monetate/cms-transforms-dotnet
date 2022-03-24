@@ -11,7 +11,7 @@ def slack = new Slack(steps, REPO_NAME)
 slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
-    agent { label "node-v8" }
+    agent { docker "6.0.201-alpine3.15-amd64" }
     stages {
         stage('Checkout source') {
             steps {
@@ -23,17 +23,15 @@ pipeline {
             steps {
                 script {
                     def venvDir = "${TEMPDIR}/${env.BUILD_TAG}-check-account"
-                    nvm('12') {
-                        withEnv(["PATH=${venvDir}/bin:${PATH}"]) {
-                            stage('Install requirements') {
-                            	sh 'sh dotnet-install.sh'
-                            }
+					withEnv(["PATH=${venvDir}/bin:${PATH}"]) {
+						stage('Install requirements') {
+							sh 'sh dotnet-install.sh'
+						}
 
-                            stage('Test') {
-                                sh 'make test-dotnet'
-                            }
-                        }
-                    }
+						stage('Test') {
+							sh 'make test-dotnet'
+						}
+					}
                 }
             }
         }
