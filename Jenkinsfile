@@ -18,11 +18,10 @@ node('node-v8') {
 			checkout scm
 		}
 
-		stage('Install requirements') {
-			sh 'sh build.sh'
-		}
-
 		withEnv(["PATH=${venvDir}/bin:${PATH}"]) {
+			stage('Install requirements') {
+				sh 'sh build.sh'
+			}
 			stage('Run tests') {
 				sh 'make test-dotnet'
 			}
