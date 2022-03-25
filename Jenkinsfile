@@ -11,7 +11,10 @@ def slack = new Slack(steps, REPO_NAME)
 slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
-    agent { dockerfile true }
+    agent {
+    	dockerfile true
+    	label "node-v8"
+	}
     stages {
         stage('Checkout source') {
             steps {
