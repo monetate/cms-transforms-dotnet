@@ -12,7 +12,7 @@ slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
     agent {
-    	docker { image '6.0.201-alpine3.15-amd64' }
+    	docker { image 'mcr.microsoft.com/dotnet/sdk:6.0.201-alpine3.15-amd64' }
     }
     stages {
         stage('Checkout source') {
