@@ -11,9 +11,7 @@ def slack = new Slack(steps, REPO_NAME)
 slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
-    agent {
-    	docker { image 'mcr.microsoft.com/dotnet/sdk:6.0' }
-    }
+    agent { dockerfile true }
     stages {
         stage('Checkout source') {
             steps {
