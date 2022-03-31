@@ -27,10 +27,6 @@ pipeline {
 			}
             steps {
                 script {
-					stage('Install requirements') {
-						sh 'sh dotnet-install.sh'
-					}
-
 					stage('Test') {
 						sh 'make test-dotnet'
 					}
