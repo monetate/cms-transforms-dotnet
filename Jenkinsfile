@@ -46,7 +46,7 @@ pipeline {
 //             }
             steps {
             	script {
-					def versionPrefix =  sh(returnStdout: true, script: 'grep -o (?<=<Version>).*(?=</Version>) ./cms-transforms-c-sharp/CmsTransformLibrary/CmsTransformLibrary.csproj')
+					def versionPrefix =  sh(returnStdout: true, script: "grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'")
 					sh "echo ${versionPrefix}"
 					sh "cd cms-transforms-c-sharp/CmsTransformLibrary"
 					sh "nuget pack CmsTransformLibrary.csproj"
