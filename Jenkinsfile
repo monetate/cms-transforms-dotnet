@@ -12,6 +12,9 @@ slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
     agent { label "node-v8" }
+    environment {
+        DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+    }
     stages {
         stage('Checkout source') {
             steps {
