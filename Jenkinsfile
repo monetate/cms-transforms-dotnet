@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
 					stage('Test') {
-						sh 'dotnet test /cms-transforms-c-sharp/CmsTransformTests/CmsTransformUnitTests.csproj'
+						sh 'cd cms-transforms-c-sharp/CmsTransformTests && dotnet test && cd ../..'
 					}
                 }
             }
