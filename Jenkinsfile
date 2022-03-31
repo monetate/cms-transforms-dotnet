@@ -20,18 +20,19 @@ pipeline {
         }
 
         stage('Tests') {
-        	agent { dockerfile true }
+        	agent {
+				dockerfile {
+					label 'docker'
+				}
+			}
             steps {
                 script {
-                    def venvDir = "${TEMPDIR}/${env.BUILD_TAG}-check-account"
-					withEnv(["PATH=${venvDir}/bin:${PATH}"]) {
-						stage('Install requirements') {
-							sh 'sh dotnet-install.sh'
-						}
+					stage('Install requirements') {
+						sh 'sh dotnet-install.sh'
+					}
 
-						stage('Test') {
-							sh 'make test-dotnet'
-						}
+					stage('Test') {
+						sh 'make test-dotnet'
 					}
                 }
             }
