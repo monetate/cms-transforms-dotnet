@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('Tests') {
+        stage('Run Tests') {
         	agent {
 				dockerfile {
 					label 'docker'
@@ -30,20 +30,30 @@ pipeline {
 			}
             steps {
                 script {
-					stage('Test') {
-						sh 'cd cms-transforms-c-sharp/CmsTransformTests && dotnet test && cd ../..'
+					stage('Test Cms Transforms') {
+						sh 'pushd cms-transforms-c-sharp/CmsTransformTests && dotnet test && popd'
 					}
                 }
             }
         }
 
         stage('Artifact: tag and publish') {
-            when {
-                branch 'release';
-            }
+        	agent {
+				dockerfile {
+					label 'docker'
+				}
+			}
+//             when {
+//                 branch 'release';
+//             }
             steps {
-                sh "make nuget-pack"
-                sh "pushd cms-transforms-c-sharp/CmsTransformLibrary && nuget push CmsTransformLibrary.1.0.0.nupkg -Source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -ApiKey U8Nj5klhb0iDlbI0ilbc2js8QF7zY68kqNSusutamG/z+gVfk86Y9p4KYAQYpxbadvVoBFU41F8pnr0K+1miZwjZkEAw7rSIATS3o0g2hqZzvRsatro5mQEVWF4OHSC3jhvauxTHW+Bhs9tvefN+3De6FW2E3v4Q0G+PPBlt/y8kSGeSTBvWsh1S/cp1jdWpCJ7VJCMYBrYa7l5D+lTjstO5LDn7FQaeX9s8COVTeIPugVAlqCjRQrLQyQkTQvB/e/FO9WRGkgN5PrjfYjxF7mKWtsTqGqrl1nzPJhfEiQvHBgmcfWpN1nG+MoF20Up4cDTajzcz60WRiU1/FR077UgjMIWOLQTnvYQg/nQv21RNafXQVoeoSC4tnJ2kD+3W && popd"
+				def versionPrefix =  sh(returnStdout: true, script: 'grep -o (?<=<Version>).*(?=</Version>) ./cms-transforms-c-sharp/CmsTransformLibrary/CmsTransformLibrary.csproj')
+				sh "echo ${versionPrefix}"
+				sh "pushd cms-transforms-c-sharp/CmsTransformLibrary"
+                sh "nuget pack CmsTransformLibrary.csproj"
+                def key = sh(aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-pw -)
+                sh "nuget push CmsTransformLibrary.${versionPrefix}.nupkg -Source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -ApiKey ${key}"
+                sh "popd"
             }
         }
     }
