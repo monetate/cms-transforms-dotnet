@@ -30,9 +30,7 @@ pipeline {
 			}
             steps {
                 script {
-					stage('Test Cms Transforms') {
-						sh 'pushd cms-transforms-c-sharp/CmsTransformTests && dotnet test && popd'
-					}
+					sh 'pushd cms-transforms-c-sharp/CmsTransformTests && dotnet test && popd'
                 }
             }
         }
@@ -47,13 +45,15 @@ pipeline {
 //                 branch 'release';
 //             }
             steps {
-				def versionPrefix =  sh(returnStdout: true, script: 'grep -o (?<=<Version>).*(?=</Version>) ./cms-transforms-c-sharp/CmsTransformLibrary/CmsTransformLibrary.csproj')
-				sh "echo ${versionPrefix}"
-				sh "pushd cms-transforms-c-sharp/CmsTransformLibrary"
-                sh "nuget pack CmsTransformLibrary.csproj"
-                def key = sh(returnStdout: true, script: "aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-pw -")
-                sh "nuget push CmsTransformLibrary.${versionPrefix}.nupkg -Source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -ApiKey ${key}"
-                sh "popd"
+            	script {
+					def versionPrefix =  sh(returnStdout: true, script: 'grep -o (?<=<Version>).*(?=</Version>) ./cms-transforms-c-sharp/CmsTransformLibrary/CmsTransformLibrary.csproj')
+					sh "echo ${versionPrefix}"
+					sh "pushd cms-transforms-c-sharp/CmsTransformLibrary"
+					sh "nuget pack CmsTransformLibrary.csproj"
+					def key = sh(returnStdout: true, script: "aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-pw -")
+					sh "nuget push CmsTransformLibrary.${versionPrefix}.nupkg -Source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -ApiKey ${key}"
+					sh "popd"
+                }
             }
         }
     }
