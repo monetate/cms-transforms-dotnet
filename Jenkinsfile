@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
 					stage('Test') {
-						sh 'make test-dotnet'
+						sh 'dotnet test /cms-transforms-c-sharp/CmsTransformTests/'
 					}
                 }
             }
