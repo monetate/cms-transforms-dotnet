@@ -49,8 +49,8 @@ pipeline {
 					def versionPrefix =  sh(returnStdout: true, script: "cd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\\(.*\\)<\\/Version>/\\1/'")
 					sh "echo ${versionPrefix}"
 					sh "cd cms-transforms-c-sharp/CmsTransformLibrary && dotnet pack CmsTransformLibrary.csproj"
-					def key = sh(returnStdout: true, script: "sh ./build.sh").trim()
-					sh "dotnet push CmsTransformLibrary.${versionPrefix}.nupkg -Source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -ApiKey ${key}"
+					def key = sh(returnStdout: true, script: "aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-pw -").trim()
+					sh "dotnet nuget push CmsTransformLibrary.${versionPrefix}.nupkg --source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local --api-key ${key}"
 					sh "cd ../.."
                 }
             }
