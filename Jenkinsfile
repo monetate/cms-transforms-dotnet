@@ -51,8 +51,9 @@ pipeline {
 					sh "cd cms-transforms-c-sharp/CmsTransformLibrary && dotnet pack CmsTransformLibrary.csproj -c Release"
 					def key = sh(returnStdout: true, script: "aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-pw -").trim()
 					def src = "CmsTransformLibrary.${versionPrefix}.nupkg"
+					sh "dotnet nuget add source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -n Artifactory -u tweaver -p AKCp8hyEsZz87Qt2aLWAzbcfRSTGoK17FmSpYX8AnYej8ptuaH3SxdwDL7m6hPNVaQJcC8swu"
 					sh "echo ls /cms-transforms-c-sharp/CmsTransformLibrary/"
-					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -k ${key}"
+					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s Artifactory -k ${key}"
                 }
             }
         }
