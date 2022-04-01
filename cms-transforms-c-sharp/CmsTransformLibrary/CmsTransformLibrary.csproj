@@ -11,6 +11,7 @@
     <ProjectUrl>https://github.com/monetate/cms-transforms-dotnet/</ProjectUrl>
     <ReleaseNotes>Initial Release</ReleaseNotes>
     <Tags>v1.0.0</Tags>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
