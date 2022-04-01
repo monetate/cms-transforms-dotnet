@@ -52,7 +52,7 @@ pipeline {
 					def key = sh(returnStdout: true, script: "aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-pw -").trim()
 					def src = "CmsTransformLibrary.${versionPrefix}.nupkg"
 					sh "echo ls /cms-transforms-c-sharp/CmsTransformLibrary/"
-					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -k ${key}"
+					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && sudo dotnet nuget push ${src} -s https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -k ${key}"
                 }
             }
         }
