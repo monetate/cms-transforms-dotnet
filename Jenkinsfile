@@ -55,7 +55,7 @@ pipeline {
 					def src = "CmsTransformLibrary.${versionPrefix}.nupkg"
 					sh "dotnet nuget add source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -n Artifactory -u ${uname} -p ${pw} --store-password-in-clear-text"
 					sh "echo ls /cms-transforms-c-sharp/CmsTransformLibrary/"
-					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s Artifactory -k ${key}"
+					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s Artifactory -k ${key} --no-service-endpoint"
                 }
             }
         }
