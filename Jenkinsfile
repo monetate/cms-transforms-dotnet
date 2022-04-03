@@ -46,7 +46,7 @@ pipeline {
 //             }
             steps {
             	script {
-					def versionPrefix =  sh(returnStdout: true, script: "pushd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\\(.*\\)<\\/Version>/\\1/'").trim()
+					def versionPrefix =  sh(returnStdout: true, script: "cd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\\(.*\\)<\\/Version>/\\1/'").trim()
 					sh "echo Version to be uploaded: ${versionPrefix}"
 					sh "make dotnet-pack"
 					def uname = sh(returnStdout: true, script: "aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-user -").trim()
@@ -54,7 +54,7 @@ pipeline {
 					def src = "CmsTransformLibrary.${versionPrefix}.nupkg"
 					def key = "${uname}:${pw}"
 					sh "dotnet nuget add source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -n Artifactory -u ${uname} -p ${pw} --store-password-in-clear-text"
-					sh "pushd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s Artifactory -k ${key}"
+					sh "cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${src} -s Artifactory -k ${key}"
                 }
             }
         }
