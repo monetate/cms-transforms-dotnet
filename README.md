@@ -30,7 +30,7 @@ nuget setapikey {username}:{apikey} -Source Artifactory
 ```
 
 
-# Publishing to Artifactory (dev instructions): 
+# Publishing to Artifactory manually (dev instructions): 
 
 Generate a .nuspec file from the transforms-c-sharp/CmsTransformLibrary directory (the same directory as the .csproj file).
 ```
@@ -50,3 +50,12 @@ Push your .nupkg file to Artifactory
 nuget push CmsTransformLibrary.a.b.c.nupkg -Source ArtifactoryNuGetV3
 ```
 Navigate to Artifactory dotnet-local UI to confirm the .nupkg has been uploaded
+
+# Publishing to Artifactory with Make (dev instructions):
+The makefile and corresponding bash script were created for ease of use and use dotnet commands instead of NuGet 
+to be compatible with Jenkins.
+
+`make dotnet-test` will test the unittests in CmsTransformTests
+`make dotnet-pack` will pack a Release version of the CmsTransformLibrary and put it in cms-transforms-c-sharp/CmsTransformLibrary/bin/Release
+`make dotnet-publish` will use the output of dotnet-pack and upload it to Artifactory. Make sure to change the version
+to avoid any chance of overwriting existing artifacts.
