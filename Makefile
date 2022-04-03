@@ -5,6 +5,6 @@ dotnet-pack:
 	cd cms-transforms-c-sharp/CmsTransformLibrary && dotnet pack CmsTransformLibrary.csproj -c Release && cd ../..;
 
 dotnet-publish:
-	sh ./publish.sh
+	sh publish.sh
 
 .PHONY: dotnet-test dotnet-pack dotnet-publish
