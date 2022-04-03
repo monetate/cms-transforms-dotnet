@@ -7,4 +7,4 @@ dotnet-pack:
 dotnet-publish:
 	sh ./publish.sh
 
-.PHONY: dotnet-test dotnet-pack
+.PHONY: dotnet-test dotnet-pack dotnet-publish
