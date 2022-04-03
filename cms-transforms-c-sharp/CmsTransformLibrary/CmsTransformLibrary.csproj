@@ -4,6 +4,7 @@
     <PackageId>CmsTransformLibrary</PackageId>
     <Version>1.0.0</Version>
     <Author>Kibo Commerce</Author>
+    <Authors>Kibo Commerce</Authors>
     <Company>Kibo Commerce</Company>
     <Copyright>2022 Kibo Commerce</Copyright>
     <TargetFramework>net5.0</TargetFramework>
