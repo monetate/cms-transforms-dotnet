@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION_PREFIX=$(cd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/')
-VERSION_PREFIX="$(echo "$VERSION_PREFIX" | tr -d '\n')"
+VERSION_PREFIX="$(echo "$VERSION_PREFIX" | tr -d '\r\n')"
 ARTIFACTORY_UNAME=$(aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-user -)
 ARTIFACTORY_PW=$(aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-upw -)
 SOURCE="CmsTransformLibrary.${VERSION_PREFIX}.nupkg"
