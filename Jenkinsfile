@@ -41,9 +41,9 @@ pipeline {
 					label 'docker'
 				}
 			}
-//             when {
-//                 branch 'release';
-//             }
+            when {
+                branch 'release';
+            }
             steps {
             	script {
 					def versionPrefix =  sh(returnStdout: true, script: "cd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\\(.*\\)<\\/Version>/\\1/'").trim()
