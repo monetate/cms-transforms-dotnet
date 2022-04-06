@@ -51,7 +51,7 @@ pipeline {
 					sh "echo Version being uploaded: ${versionPrefix}"
 					sh "make dotnet-pack"
 					sh 'chmod +x ./publish.sh'
-					sh "./publish.sh '${ARTIFACTORY_API_KEY}'"
+					sh './publish.sh ${ARTIFACTORY_API_KEY}'
                 }
             }
         }
