@@ -50,7 +50,8 @@ pipeline {
 					def versionPrefix =  sh(returnStdout: true, script: "cd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\\(.*\\)<\\/Version>/\\1/'").trim()
 					sh "echo Version being uploaded: ${versionPrefix}"
 					sh "make dotnet-pack"
-					sh 'sh publish.sh ${ARTIFACTORY_API_KEY}'
+					sh 'chmod +x ./publish.sh'
+					sh './publish.sh ${ARTIFACTORY_API_KEY}'
                 }
             }
         }
