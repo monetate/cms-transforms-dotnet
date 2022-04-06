@@ -7,7 +7,12 @@ ARTIFACTORY_PW=$(aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.i
 SOURCE="CmsTransformLibrary.${VERSION_PREFIX}.nupkg"
 API_KEY="${ARTIFACTORY_UNAME}:${ARTIFACTORY_PW}"
 IFS=: read -r USER PW <<< "$1"
-
+echo "$USER"
+echo "${USER}"
+echo "$PW"
+echo "${PW}"
+echo "$1"
+echo "${1}"
 dotnet nuget add source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -n Artifactory -u ${USER} -p ${PW} --store-password-in-clear-text
 
 cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${SOURCE} -s Artifactory -k ${1} && cd ../../../..
