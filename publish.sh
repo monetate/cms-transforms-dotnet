@@ -6,11 +6,8 @@ ARTIFACTORY_UNAME=$(aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfro
 ARTIFACTORY_PW=$(aws s3 cp s3://secret-monetate-dev/artifactory/monetate.jfrog.io/dotnet-local/dotnet-local-upw -)
 SOURCE="CmsTransformLibrary.${VERSION_PREFIX}.nupkg"
 API_KEY="${ARTIFACTORY_UNAME}:${ARTIFACTORY_PW}"
+IFS=: read -r USER PW <<< "$1"
 
-# dotnet nuget add source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -n Artifactory -u ${ARTIFACTORY_UNAME} -p ${ARTIFACTORY_PW} --store-password-in-clear-text
+dotnet nuget add source https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local -n Artifactory -u ${USER} -p ${PW} --store-password-in-clear-text
 
-# cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${SOURCE} -s Artifactory -k ${API_KEY} && cd ../../../..
-IFS=: read -r var1 var2 <<< "$1"
-echo $var1
-echo $var2
-cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${SOURCE} -s "https://monetate.jfrog.io/artifactory/api/nuget/v3/dotnet-local" -k "$1" && cd ../../../..
+cd cms-transforms-c-sharp/CmsTransformLibrary/bin/Release/ && dotnet nuget push ${SOURCE} -s Artifactory -k ${1} && cd ../../../..
