@@ -14,6 +14,8 @@ pipeline {
     agent { label "node-v8" }
     environment {
         DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+        ARTIFACTORY_USER = credentials('monetate-jenkins-artifactory-user')
+        ARTIFACTORY_PW = credentials('monetate-jenkins-artifactory-password')
     }
     stages {
         stage('Checkout source') {
@@ -49,7 +51,8 @@ pipeline {
 					def versionPrefix =  sh(returnStdout: true, script: "cd cms-transforms-c-sharp/CmsTransformLibrary && grep '<Version>' < CmsTransformLibrary.csproj | sed 's/.*<Version>\\(.*\\)<\\/Version>/\\1/'").trim()
 					sh "echo Version being uploaded: ${versionPrefix}"
 					sh "make dotnet-pack"
-					sh "sh publish.sh"
+					sh 'chmod +x ./publish.sh'
+					sh './publish.sh ${ARTIFACTORY_USER} ${ARTIFACTORY_PW}'
                 }
             }
         }
