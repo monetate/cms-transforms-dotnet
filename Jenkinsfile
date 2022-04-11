@@ -14,7 +14,8 @@ pipeline {
     agent { label "node-v8" }
     environment {
         DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-        ARTIFACTORY_API_KEY = credentials('artifactory-generic-artifact-read-write')
+        ARTIFACTORY_USER = credentials('monetate-jenkins-artifactory-user')
+        ARTIFACTORY_PW = credentials('monetate-jenkins-artifactory-password')
     }
     stages {
         stage('Checkout source') {
@@ -51,7 +52,7 @@ pipeline {
 					sh "echo Version being uploaded: ${versionPrefix}"
 					sh "make dotnet-pack"
 					sh 'chmod +x ./publish.sh'
-					sh './publish.sh ${ARTIFACTORY_API_KEY}'
+					sh './publish.sh ${ARTIFACTORY_USER} ${ARTIFACTORY_PW}'
                 }
             }
         }
