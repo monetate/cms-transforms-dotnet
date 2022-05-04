@@ -11,7 +11,7 @@ def slack = new Slack(steps, REPO_NAME)
 slack.success(this, ':pipeline: Pipeline started')
 
 pipeline {
-    agent { label "node-v8" }
+    agent { label "dotnet" }
     environment {
         DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
         ARTIFACTORY_USER = credentials('monetate-jenkins-artifactory-user')
@@ -25,11 +25,11 @@ pipeline {
         }
 
         stage('Run Tests') {
-        	agent {
-				dockerfile {
-					label 'docker'
-				}
-			}
+//         	agent {
+// 				dockerfile {
+// 					label 'docker'
+// 				}
+// 			}
             steps {
                 script {
 					sh 'make dotnet-test'
@@ -38,11 +38,11 @@ pipeline {
         }
 
         stage('Artifact: tag and publish') {
-        	agent {
-				dockerfile {
-					label 'docker'
-				}
-			}
+//         	agent {
+// 				dockerfile {
+// 					label 'docker'
+// 				}
+// 			}
             when {
                 branch 'release';
             }
